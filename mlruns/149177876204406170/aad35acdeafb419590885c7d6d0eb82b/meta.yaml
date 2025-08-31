@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/fedorbogomolov/Desktop/VSprojects/proj1/mlruns/149177876204406170/aad35acdeafb419590885c7d6d0eb82b/artifacts
+end_time: 1756636546609
+entry_point_name: ''
+experiment_id: '149177876204406170'
+lifecycle_stage: active
+run_id: aad35acdeafb419590885c7d6d0eb82b
+run_name: RandomForestClassifier-md=5-ne=100
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756636546435
+status: 3
+tags: []
+user_id: fedorbogomolov

@@ -1,0 +1,89 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: d0afcd9222b307ee86c271a32b50572b.dir
+      size: 121385
+      nfiles: 1
+    - path: src/prepare.py
+      hash: md5
+      md5: e7c5718fcb9e0a7794184522899b6d13
+      size: 1000
+    params:
+      params.yaml:
+        data.processed: data/processed
+        data.raw: data/raw
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 3be855956dad08e18c8050ca94bd70ad.dir
+      size: 121877
+      nfiles: 4
+  featurize:
+    cmd: python src/featurize.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 3be855956dad08e18c8050ca94bd70ad.dir
+      size: 121877
+      nfiles: 4
+    - path: src/featurize.py
+      hash: md5
+      md5: 8a94c9f788a6485a9fde2ead510f977e
+      size: 576
+    outs:
+    - path: data/features
+      hash: md5
+      md5: 728503a2f315e43ef4e4064c5b77119f.dir
+      size: 338170
+      nfiles: 2
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/features
+      hash: md5
+      md5: 728503a2f315e43ef4e4064c5b77119f.dir
+      size: 338170
+      nfiles: 2
+    - path: src/train.py
+      hash: md5
+      md5: 15a1c043a6577802579d3f49a9b1f8d8
+      size: 3877
+    params:
+      params.yaml:
+        model.max_depth: 5
+        model.type: RandomForestClassifier
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 58845a993052d1a1fa3711ea9eee973b
+      size: 272633
+    - path: reports/metrics.json
+      hash: md5
+      md5: a6a3143bdf4ad8d5ea108910b842b826
+      size: 96
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/features
+      hash: md5
+      md5: 728503a2f315e43ef4e4064c5b77119f.dir
+      size: 338170
+      nfiles: 2
+    - path: models/model.pkl
+      hash: md5
+      md5: 58845a993052d1a1fa3711ea9eee973b
+      size: 272633
+    - path: src/evaluate.py
+      hash: md5
+      md5: ea60d32857b3434ec8ace69c8ca6225c
+      size: 1060
+    outs:
+    - path: reports/plots
+      hash: md5
+      md5: f7860c6bb8106c46fbc9d01a5f615cbe.dir
+      size: 19437
+      nfiles: 2

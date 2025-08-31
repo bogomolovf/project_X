@@ -1,0 +1,39 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - data/raw
+    - src/prepare.py
+    params:
+    - data.processed
+    - data.raw
+    outs:
+    - data/processed
+  featurize:
+    cmd: python src/featurize.py
+    deps:
+    - data/processed
+    - src/featurize.py
+    outs:
+    - data/features
+  train:
+    cmd: python src/train.py
+    deps:
+    - data/features
+    - src/train.py
+    params:
+    - model.max_depth
+    - model.type
+    outs:
+    - models/model.pkl
+    metrics:
+    - reports/metrics.json:
+        cache: false
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - data/features
+    - models/model.pkl
+    - src/evaluate.py
+    outs:
+    - reports/plots
